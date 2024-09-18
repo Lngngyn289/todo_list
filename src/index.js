@@ -6,16 +6,14 @@ const morgan = require('morgan')
 const handlebars = require('express-handlebars')
 const route = require('./routes')
 const db = require('./config/db') 
-
-require('dotenv').config() //load environment variables from.env file
-//for local db
-db.connect()
-
 const methodOverride = require('method-override')
 const multer  = require('multer')
 const upload = multer({ dest: './public/uploads/' })
 
 // db.connect(); for local db
+require('dotenv').config() 
+db.connect()
+
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname,'/public')))

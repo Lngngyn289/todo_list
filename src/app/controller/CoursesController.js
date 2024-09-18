@@ -18,7 +18,6 @@ class CoursesController{
 
   //[post] /courses/store
   store(req, res, next){
-    if(req.file) req.body.img = '/uploads/' + req.file.filename
     const course = new Course(req.body)
     course.save()
       .then(() => res.redirect('/me/stored-courses'))
