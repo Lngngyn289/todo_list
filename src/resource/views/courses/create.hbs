@@ -1,0 +1,46 @@
+<div class="mt-4 container">
+  <h3>
+    <form method = "POST" action = "/courses/store" enctype="multipart/form-data">
+      <div class="mb-3 form-class">
+        <label for="name" class="form-label">Name </label>
+        <input type="text" class="form-control" id="name" name="name">
+      </div>
+      <div class="mb-3 form-class">
+        <label for="description" class="form-label">Description</label>
+        <textarea type="text" class="form-control" id="description" name="description"></textarea>
+      </div>
+      <div class="mb-3 form-class">
+        <label for="idvideo" class="form-label" >Video</label>
+        <input type="text" class="form-control" id="idvideo" name="idvideo">
+      </div>
+      
+      <div class="mb-3 form-class">
+        <label for="level" class="form-label">Level</label>
+        <input type="text" class="form-control" id="level" name="level">
+      </div>
+
+      
+      <div class="mb-3 form-class" upload-image>
+        <label for="img" class="form-label" >Image</label>
+        <input type="file" class="form-control-file" id="img" name="img" accept="image/*" upload-image-input>
+        <img upload-image-preview src="" class="preview-image"> 
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+  </h3>
+</div>
+
+<script>
+  const uploadImage = document.querySelector("[upload-image]");
+  if(uploadImage){
+    const uploadImageInput = uploadImage.querySelector("[upload-image-input]");
+    const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]");
+    uploadImageInput.addEventListener("change", function(event){
+      const file = event.target.files[0];
+      if(file){
+        uploadImagePreview.src = URL.createObjectURL(file)
+      }
+    })
+  }
+</script>

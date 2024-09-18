@@ -1,0 +1,22 @@
+.card-courses-items{
+  margin-top: 16px;
+  margin-left: 16px;
+}
+
+.select-all-checkbox-option{
+  width: 200px;
+  margin: 0px 16px;
+}
+
+.preview-image{
+  width: 200px;
+  height: 200px;
+}
+.preview-image[src=""]{
+  display: none;
+}
+
+
+.upload-image{
+  margin: 50px
+}
