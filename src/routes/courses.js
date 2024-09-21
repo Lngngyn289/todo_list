@@ -3,15 +3,8 @@ const multer = require("multer");
 // const storageMulter = require('../app/middlewares/ImageNameMiddleware')
 const fileUpload = multer();
 const router = express.Router();
-const cloudinary = require("cloudinary").v2;
-const streamifier = require("streamifier");
+const uploadCloud = require('../app/middlewares/UploadCloudMiddleware')
 
-//connect to cloudinary
-cloudinary.config({
-  cloud_name: "di4nqss0b",
-  api_key: "587397285485738",
-  api_secret: "MdcOjV7wSr1bU3303zhlsbZu_-c", // Click 'View API Keys' above to copy your API secret
-});
 
 const coursesController = require("../app/controller/CoursesController");
 
@@ -34,27 +27,6 @@ router.delete("/:id/deleteindb", coursesController.deleteindb);
 router.put(
   "/:id",
   fileUpload.single("img"),
-  function (req, res, next) {
-    let streamUpload = (req) => {
-      return new Promise((resolve, reject) => {
-        let stream = cloudinary.uploader.upload_stream((error, result) => {
-          if (result) {
-            resolve(result);
-          } else {
-            reject(error);
-          }
-        });
-        streamifier.createReadStream(req.file.buffer).pipe(stream);
-      });
-    };
-    async function upload(req) {
-      let result = await streamUpload(req);
-      req.body[req.file.fieldname] = result.secure_url;
-      next();
-    }
-
-    upload(req);
-  },
   coursesController.update
 );
 
@@ -67,6 +39,7 @@ router.patch("/:id/restore", coursesController.restore);
 router.post(
   "/store",
   fileUpload.single("img"),
+  uploadCloud.uploadCloudinary,
   coursesController.store
 );
 

@@ -8,7 +8,7 @@ const route = require('./routes')
 const db = require('./config/db') 
 const methodOverride = require('method-override')
 const multer  = require('multer')
-const upload = multer({ dest: './public/uploads/' })
+
 
 // db.connect(); for local db
 require('dotenv').config() 
