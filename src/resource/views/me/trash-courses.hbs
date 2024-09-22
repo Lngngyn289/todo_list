@@ -1,23 +1,45 @@
-<div class="mt-4 container-lg">
-  <h3> Deleted Courses</h3>
-  <a href="/me/stored-courses"> Back to my courses </a>
-  <table class="table table-hover table-responsive-lg">
+<form class="mt-4 container-lg" method="POST" action="/courses/action-handler-form-trash">
+  <h3> Deleted Tasks</h3>
+  <a href="/me/stored-courses"> Back to my tasks </a>
+
+  <div class="mt-4 d-flex align-items-center">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="checkbox-all-trash">
+      <label class="form-check-label" for="checkbox-all-trash">
+        Select all
+      </label>
+    </div>
+    <select class="form-select form-select-sm select-all-checkbox-option" aria-label="Small select example" name="action" required> 
+      <option value="">--Select action--</option>
+      <option value="delete">Delete</option>
+      <option value="restore">Restore</option>
+    </select>
+    <button class="btn btn-primary btn-sm execute-btn disabled">Execute</button>
+  </div>
+
+  <table class="table table-hover table-responsive-lg mt-4">
     <thead>
       <tr>
+        <th scope="col"></th>
         <th scope="col">#</th>
         <th scope="col">Name</th>
         <th scope="col">Level</th>
-        <th scope="col">Created At</th>
+        <th scope="col">Deleted At</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       {{#each course}}
       <tr>
+        <td>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="allCourseIdsTrash[]" value="{{this._id}}">
+          </div>
+        </td>
         <th scope="row">{{sum @index 1}}</th>
         <td>{{this.name}}</td>
         <td>{{this.level}}</td>
-        <td>{{this.createdAt}}</td>
+        <td>{{this.deletedAt}}</td>
         <td>
           <a class="btn btn-primary btn-restore" data-id ="{{this._id}}" href="" role="button">Restore</a>
           <a class="btn btn-danger" data-id="{{this._id}}" role="button" data-bs-toggle="modal" data-bs-target="#delete-course-modal">Delete</a>      
@@ -27,13 +49,13 @@
       <tr>
         <td colspan = "5" >
           Empty
-          <a href="/courses/create"> Create Course </a>
+          <a href="/courses/create"> Create Task </a>
         </td>
       </tr>
       {{/each}}
     </tbody>
   </table>
-</div>
+</form>
 
 
 
@@ -41,12 +63,12 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete course</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Task</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Are you sure to delete this course?
-        It can't be restore
+        Are you sure to delete this task?
+        Can't be restore
       </div>
       <div class="modal-footer">
         <button type="button" id="btn-delete-course" class="btn btn-danger">Delete</button>
@@ -57,7 +79,6 @@
 </div>
 
 <form method = "POST" id = "delete-form"></form>
-<form method = "POST" id = "restore-form"></form>
 
 <script>
   document.addEventListener('DOMContentLoaded', function(){
@@ -67,7 +88,8 @@
     var btnRestoreCourse = document.getElementById('btn-restore-course')
     var btnDeleteCourse = document.getElementById('btn-delete-course')
     var restoreBtn = $('.btn-restore')
-
+    var checkboxAllTrash = $('#checkbox-all-trash')
+    var allCourseIdsTrash = $('input[name="allCourseIdsTrash[]"]')
     // get id to delete
     $('#delete-course-modal').on('show.bs.modal', function(event){
       var button = $(event.relatedTarget)
@@ -87,5 +109,31 @@
       restoreForm.action = '/courses/' + restore_id + '/restore?_method=PATCH'
       restoreForm.submit()
     })
+
+    checkboxAllTrash.change(function(){
+      var isCheckedAll = $('#checkbox-all-trash').prop('checked')
+      allCourseIdsTrash.prop('checked',isCheckedAll)
+      renderExecuteBtn()
+    })
+
+    //checkbox item change
+    allCourseIdsTrash.change(function(){
+      var isCheckedAll = $('input[name="allCourseIdsTrash[]"]:checked').length === allCourseIdsTrash.length
+      checkboxAllTrash.prop('checked', isCheckedAll)
+      renderExecuteBtn()
+    })
+
+    $('.execute-btn').on('submit',function(e){
+      if($('execute-btn').hasClass('disabled')){
+        e.preventDefault()
+      }
+    })
+
+    function renderExecuteBtn(){
+      if($('input[name="allCourseIdsTrash[]"]:checked').length){
+        $('.execute-btn').removeClass('disabled')
+      }
+      else $('.execute-btn').addClass('disabled')
+    }
   })
 </script>

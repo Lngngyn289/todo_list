@@ -8,7 +8,7 @@
 
       <div class="mb-3 form-class">
         <label for="description" class="form-label">Description</label>
-        <textarea class="form-control" id="description" name="description">{{course.description}}</textarea>
+        <textarea class="form-control" id="description" name="description" maxlength="10000">{{course.description}}</textarea>
       </div>
 
       <div class="mb-3 form-class">
@@ -21,13 +21,33 @@
         <input type="text" class="form-control" value = "{{course.level}}" id="level" name="level">
       </div>
 
-      <div class="mb-3 form-class" upload-image-new>
-        <label for="img" class="form-label">Select a new image</label>
-        <input type="file" class="form-control-file" id="upload-image-input-new" name="img" accept="image/*">
+      <div class="mb-3 form-class" current-image>
+        <label for="img" class="form-label">Current Image</label>
+        <img src="{{course.img}}" class="preview-image"  width="200px" height="200px">
+      </div>
+
+      <div class="mb-3 form class" upload-image-new>
+        <label for="img" class="form-label" >Select a new image</label>
+        <input type="file" class="form-control-file" name="img" accept="image/*" src="{{course.img}}" upload-image-input-new>
+        <img upload-image-preview-new src="" class="preview-image-new">
       </div>
 
       <button type="submit" href="../me/stored-courses.hbs" class="btn btn-primary">Save Update</button>
     </form>
   </h3>
 </div>
+
+<script>
+  const uploadImageNew = document.querySelector("[upload-image-new]");
+  if(uploadImageNew){
+    const uploadImageInputNew = uploadImageNew.querySelector("[upload-image-input-new]");
+    const uploadImagePreviewNew = uploadImageNew.querySelector("[upload-image-preview-new]");
+    uploadImageInputNew.addEventListener("change", function(event){
+      const file = event.target.files[0];
+      if(file){
+        uploadImagePreviewNew.src = URL.createObjectURL(file)
+      }
+    })
+  }
+</script>
 

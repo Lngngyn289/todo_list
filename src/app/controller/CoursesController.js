@@ -19,6 +19,9 @@ class CoursesController{
   //[post] /courses/store
   store(req, res, next){
     const course = new Course(req.body)
+    if(!req.body.img){
+      course.img = 'https://www.baoninhbinh.vn/Statics/shared/no-image-available.png'
+    }
     course.save()
       .then(() => res.redirect('/me/stored-courses'))
       .catch(next)
@@ -33,7 +36,6 @@ class CoursesController{
 
   //[put] /courses/:id/edit
   update(req, res, next){
-    if(req.file) req.body.img = '/uploads/' + req.file.filename
     Course.updateOne({_id: req.params.id}, req.body)
       .then(() => res.redirect('/me/stored-courses'))
       .catch(next)
@@ -63,6 +65,22 @@ class CoursesController{
     switch(req.body.action){
       case 'delete':
         Course.delete({_id: {$in: req.body.allCourseIds}})
+          .then(res.redirect('back'))
+          .catch(next)
+        break;
+      default: res.json('error')
+    }
+  }
+
+  actionHandlerFormSubmitTrash(req, res, next){
+    switch(req.body.action){
+      case 'delete':
+        Course.deleteMany({_id: {$in: req.body.allCourseIdsTrash}})
+          .then(res.redirect('back'))
+          .catch(next)
+        break;
+      case 'restore':
+        Course.restore({_id: {$in: req.body.allCourseIdsTrash}})
           .then(res.redirect('back'))
           .catch(next)
         break;

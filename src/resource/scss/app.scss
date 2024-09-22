@@ -9,14 +9,20 @@
 }
 
 .preview-image{
-  width: 200px;
-  height: 200px;
+  width: 1000px;
+  height: 1000px;
 }
 .preview-image[src=""]{
   display: none;
 }
 
-
 .upload-image{
   margin: 50px
 }
+
+.user-avatar{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+

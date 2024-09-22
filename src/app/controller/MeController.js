@@ -16,6 +16,7 @@ class MeController{
       .then(course => res.render('me/trash-courses', {course}))
       .catch(next)
   }
+
 }
 
 module.exports = new MeController;

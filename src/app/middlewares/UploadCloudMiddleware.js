@@ -3,9 +3,9 @@ const streamifier = require("streamifier");
 
 //connect to cloudinary
 cloudinary.config({
-  cloud_name: 'di4nqss0b',
-  api_key: '587397285485738',
-  api_secret: 'MdcOjV7wSr1bU3303zhlsbZu_-c'
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
 });
 
 module.exports.uploadCloudinary = function (req, res, next) {

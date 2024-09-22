@@ -16,7 +16,7 @@ db.connect()
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(express.static(path.join(__dirname,'/public')))
+app.use(express.static(path.join(__dirname +'/public')))
 app.use(methodOverride('_method'))
 
 // logger
@@ -34,8 +34,8 @@ app.set('view engine','hbs')
 app.set('views', path.join(__dirname,'resource','/views'))
 
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+app.listen(process.env.PORT, () => {
+  console.log(`Example app listening on port ${process.env.PORT}`)
 })
 
 route(app)

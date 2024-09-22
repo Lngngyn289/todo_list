@@ -1,17 +1,28 @@
 .card-courses-items {
   margin-top: 16px;
-  margin-left: 16px; }
+  margin-left: 16px; 
+}
 
 .select-all-checkbox-option {
   width: 200px;
-  margin: 0px 16px; }
+  margin: 0px 16px; 
+}
 
-.preview-image {
+.preview-image .preview-image-new{
   width: 200px;
-  height: 200px; }
+  height: 200px;
+}
 
-.preview-image[src=""] {
-  display: none; }
+.preview-image[src=""] .preview-image-new[src=""]{
+  display: none; 
+}
 
 .upload-image {
-  margin: 50px; }
+  margin: 50px; 
+}
+
+.user-avatar{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}

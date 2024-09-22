@@ -16,6 +16,7 @@ router.get("/:id/edit", coursesController.edit);
 
 //submit action form
 router.post("/action-handler-form", coursesController.actionHandlerFormSubmit);
+router.post("/action-handler-form-trash", coursesController.actionHandlerFormSubmitTrash);
 
 //soft delete (move to trash)
 router.delete("/:id", coursesController.delete);
@@ -27,6 +28,7 @@ router.delete("/:id/deleteindb", coursesController.deleteindb);
 router.put(
   "/:id",
   fileUpload.single("img"),
+  uploadCloud.uploadCloudinary,
   coursesController.update
 );
 
